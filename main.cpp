@@ -24,6 +24,19 @@ void populate_board(int (&board)[BOARD_ROWS][BOARD_COLUMNS]) {
 
 void draw_row(int (&board)[BOARD_ROWS][BOARD_COLUMNS], const int &i) {
     for (int j = 0; j < BOARD_COLUMNS; j++) {
+        int char_length = 0;
+        int length = to_string(board[i][j]).length();
+        char_length += 3 - length;
+        char_length += length;
+        if (j < BOARD_COLUMNS - 1) char_length += 4;
+        for (int k = 0; k < char_length; k++) {
+            cout << "=";
+        }
+    }
+
+    cout << endl;
+
+    for (int j = 0; j < BOARD_COLUMNS; j++) {
         for (int k = 3 - to_string(board[i][j]).length(); k > 0; k--) {
             cout << " ";
         }
