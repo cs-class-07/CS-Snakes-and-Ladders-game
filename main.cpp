@@ -43,9 +43,7 @@ void draw_row(int (&board)[BOARD_ROWS][BOARD_COLUMNS], const int &i) {
 
         cout << board[i][j];
         
-        if (j < BOARD_COLUMNS - 1) {
-            cout << " || ";
-        }
+        if (j < BOARD_COLUMNS - 1) cout << " || ";
     }
 }
 
