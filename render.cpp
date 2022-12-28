@@ -14,10 +14,10 @@ int compute_row_padding(int (&board)[BOARD_ROWS][BOARD_COLUMNS], const int &i) {
         char_length += MAX_LENGTH - length; // Add padding spacing
         char_length += length; // Add actual character length
 
-        if (j < BOARD_COLUMNS - 1) char_length += 4;
+        if (j < BOARD_COLUMNS - 1) char_length += 3;
     }
 
-    char_length += 6;
+    char_length += 4;
 
     return char_length;
 }
@@ -64,20 +64,20 @@ void draw_row_padding(const int length, const int type = 0) {
 }
 
 void draw_column_padding(const int length, const int times) {
-    cout << "|| ";
+    cout << "│ ";
 
     for (int i = 0; i < times; i++) {
         for (int j = 0; j < length; j++) {
             cout << " ";
         }
-        if (i < BOARD_COLUMNS - 1) cout << " || ";
+        if (i < BOARD_COLUMNS - 1) cout << " │ ";
     }
 
-    cout << " ||";
+    cout << " │";
 }
 
 void draw_row(int (&board)[BOARD_ROWS][BOARD_COLUMNS], const int &i) {
-    cout << "|| ";
+    cout << "│ ";
 
     for (int j = 0; j < BOARD_COLUMNS; j++) {
         for (int k = MAX_LENGTH - to_string(board[i][j]).length(); k > 0; k--) {
@@ -86,10 +86,10 @@ void draw_row(int (&board)[BOARD_ROWS][BOARD_COLUMNS], const int &i) {
 
         cout << board[i][j];
 
-        if (j < BOARD_COLUMNS - 1) cout << " || ";
+        if (j < BOARD_COLUMNS - 1) cout << " │ ";
     }
 
-    cout << " ||";
+    cout << " │";
 }
 
 void draw_board(int (&board)[BOARD_ROWS][BOARD_COLUMNS]) {
