@@ -1,2 +1,5 @@
-#define BOARD_ROWS 4
-#define BOARD_COLUMNS 4
+#pragma once
+
+#define BOARD_ROWS 10
+#define BOARD_COLUMNS 10
+#define FEATURES_LENGTH (int)BOARD_ROWS*BOARD_COLUMNS/4
