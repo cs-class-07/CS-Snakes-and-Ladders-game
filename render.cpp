@@ -23,17 +23,6 @@ int compute_row_padding(const int (&board)[BOARD_ROWS][BOARD_COLUMNS], const int
     return char_length;
 }
 
-int compute_column_padding(const int (&board)[BOARD_ROWS][BOARD_COLUMNS], const int i, const int j) {
-    int char_length = 0; // A variable that will store how many times we have to print the space
-
-    int length = to_string(board[i][j]).length(); // Grab the length of the number
-
-    char_length += MAX_LENGTH - length; // Add padding spacing
-    char_length += length; // Add actual character length
-
-    return char_length;
-}
-
 /**
  * @param length How many times to print the padding character
  * @param type 0 for no corner characters, 1 for down characters, 2 for middle characters, 3 for up characters
@@ -64,18 +53,18 @@ void draw_row_padding(const int length, const int type = 0) {
     }
 }
 
-void draw_column_padding(const int length, const int times) {
-    cout << "│ ";
+// void draw_column_padding(const int length, const int times) {
+//     cout << "│ ";
 
-    for (int i = 0; i < times; i++) {
-        for (int j = 0; j < length; j++) {
-            cout << " ";
-        }
-        if (i < BOARD_COLUMNS - 1) cout << " │ ";
-    }
+//     for (int i = 0; i < times; i++) {
+//         for (int j = 0; j < length; j++) {
+//             cout << " ";
+//         }
+//         if (i < BOARD_COLUMNS - 1) cout << " │ ";
+//     }
 
-    cout << " │";
-}
+//     cout << " │";
+// }
 
 void draw_row(const int (&board)[BOARD_ROWS][BOARD_COLUMNS], const int i) {
     cout << "│ ";
@@ -93,7 +82,7 @@ void draw_row(const int (&board)[BOARD_ROWS][BOARD_COLUMNS], const int i) {
     cout << " │";
 }
 
-void draw_features_row(const int (&board)[BOARD_ROWS][BOARD_COLUMNS], unordered_map<int, int> &snakes, unordered_map<int, int> &ladders, const int i, const int col_length) {
+void draw_features_row(const int (&board)[BOARD_ROWS][BOARD_COLUMNS], unordered_map<int, int> &snakes, unordered_map<int, int> &ladders, const int i) {
     cout << "│";
 
     for (int j = 0; j < BOARD_COLUMNS; j++) {
@@ -119,7 +108,7 @@ void draw_features_row(const int (&board)[BOARD_ROWS][BOARD_COLUMNS], unordered_
         } else {
             cout << " "; // Extra space to account for the spaces not printed in case of a feature
 
-            for (int k = 0; k < col_length; k++) {
+            for (int k = 0; k < MAX_LENGTH; k++) {
                 cout << " ";
             }
         }
@@ -130,7 +119,7 @@ void draw_features_row(const int (&board)[BOARD_ROWS][BOARD_COLUMNS], unordered_
     cout << " │";
 }
 
-void draw_players_row(const int (&board)[BOARD_ROWS][BOARD_COLUMNS], const int (&players_pos)[PLAYERS_LENGTH], const int i, const int col_length) {
+void draw_players_row(const int (&board)[BOARD_ROWS][BOARD_COLUMNS], const int (&players_pos)[PLAYERS_LENGTH], const int i) {
     cout << "│ ";
 
     for (int j = 0; j < BOARD_COLUMNS; j++) {
@@ -138,7 +127,7 @@ void draw_players_row(const int (&board)[BOARD_ROWS][BOARD_COLUMNS], const int (
 
         for (int k = 0; k < PLAYERS_LENGTH && players_printed_count <= MAX_LENGTH; k++) {
             if (players_pos[k] == board[i][j]) {
-                cout << 'A' + k;
+                cout << (char)('A' + k);
                 players_printed_count++;
             }
         }
@@ -147,16 +136,17 @@ void draw_players_row(const int (&board)[BOARD_ROWS][BOARD_COLUMNS], const int (
             cout << " ";
         }
 
-        if (players_printed_count < PLAYERS_LENGTH) cout << "+"; // Print a plus to indicate that there are more players on this cell
+        if (players_printed_count > PLAYERS_LENGTH) cout << "+"; // Print a plus to indicate that there are more players on this cell
         else cout << " ";
+
+        if (j < BOARD_COLUMNS - 1) cout << "│ ";
     }
 
-    cout << " │";
+    cout << "│";
 }
 
 void draw_board(const int (&board)[BOARD_ROWS][BOARD_COLUMNS], unordered_map<int, int> &snakes, unordered_map<int, int> &ladders, const int (&players_pos)[PLAYERS_LENGTH]) {
     int row_length = compute_row_padding(board, 0);
-    int col_length = compute_column_padding(board, 0, 0);
 
     draw_row_padding(row_length, 1);
     
@@ -164,13 +154,13 @@ void draw_board(const int (&board)[BOARD_ROWS][BOARD_COLUMNS], unordered_map<int
         if (i > 0) draw_row_padding(row_length, 2);
         cout << endl;
 
-        draw_players_row(board, players_pos, i, col_length);
+        draw_players_row(board, players_pos, i);
         cout << endl;
 
         draw_row(board, i);
         cout << endl;
 
-        draw_features_row(board, snakes, ladders, i, col_length);
+        draw_features_row(board, snakes, ladders, i);
         cout << endl;
     }
 
