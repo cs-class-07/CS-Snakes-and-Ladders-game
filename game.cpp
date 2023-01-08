@@ -1,4 +1,5 @@
 #include <unordered_map>
+#include <unordered_set>
 #include <ctime>
 #include <cstdlib>
 #include "common.hpp"
@@ -22,18 +23,38 @@ void populate_board(int (&board)[BOARD_ROWS][BOARD_COLUMNS]) {
     }
 }
 
-void populate_snakes(unordered_map<int, int> &snakes) {
+void populate_snakes(unordered_map<int, int> &snakes, unordered_set<int> &banned_pos) {
     srand(time(0));
 
     for (int i = 0; i < SINGLE_FEATURES_LENGTH; i++) {
-        int random_pos = (rand() % (BOARD_CELLS - BOARD_ROWS * 3)) + BOARD_ROWS * 3;
-        int length = rand() % BOARD_ROWS * 4;
+        int random_pos = (rand() % (BOARD_CELLS - BOARD_ROWS * 3 - 1)) + BOARD_ROWS * 3; // Do not add + 1 to avoid getting a random_pos of 100
+        int length = rand() % BOARD_ROWS * 3 + BOARD_ROWS;
 
-        while (random_pos - length < 0 && !snakes.contains(random_pos)) {
-            int random_pos = (rand() % (BOARD_CELLS - BOARD_ROWS * 3)) + BOARD_ROWS * 3;
-            int length = rand() % BOARD_ROWS * 4;
+        while (random_pos - length < 1 || banned_pos.contains(random_pos) || banned_pos.contains(random_pos - length)) {
+            random_pos = (rand() % (BOARD_CELLS - BOARD_ROWS * 3 - 1)) + BOARD_ROWS * 3;
+            length = rand() % BOARD_ROWS * 3 + BOARD_ROWS;
         }
 
-        snakes.insert({ random_pos, length });
+        snakes.insert({ random_pos, random_pos - length });
+        banned_pos.insert(random_pos);
+        banned_pos.insert(random_pos - length);
+    }
+}
+
+void populate_ladders(unordered_map<int, int> &ladders, unordered_set<int> &banned_pos) {
+    srand(time(0));
+
+    for (int i = 0; i < SINGLE_FEATURES_LENGTH; i++) {
+        int random_pos = (rand() % (BOARD_CELLS - BOARD_ROWS * 3 - 1)) + 1;
+        int length = rand() % BOARD_ROWS * 3 + BOARD_ROWS;
+
+        while (random_pos + length > 100 || banned_pos.contains(random_pos) || banned_pos.contains(random_pos + length)) {
+            random_pos = (rand() % (BOARD_CELLS - BOARD_ROWS * 3 - 1)) + 1;
+            length = rand() % BOARD_ROWS * 3 + BOARD_ROWS;
+        }
+
+        ladders.insert({ random_pos, random_pos + length });
+        banned_pos.insert(random_pos);
+        banned_pos.insert(random_pos + length);
     }
 }
