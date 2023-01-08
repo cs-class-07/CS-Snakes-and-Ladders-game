@@ -19,8 +19,35 @@
             "problemMatcher": [
                 "$gcc"
             ],
-            "group": "build",
-            "detail": "C++ Build Pretask. Designed for use with Apple Clang. Uses C++ standard 17 by default."
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "C++ Build Pretask. Optimized for use with Apple Clang. Uses C++ standard 17 by default."
+        },
+        {
+            "type": "cppbuild",
+            "label": "gccbuild",
+            "command": "/usr/bin/g++-10",
+            "args": [
+                "-std=c++20",
+                "-fdiagnostics-color=always",
+                "-g",
+                "${fileDirname}/**.cpp",
+                "-o",
+                "${fileDirname}/build/${fileBasenameNoExtension}"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "detail": "C++ Build Pretask. Optimized for use with Ubuntu GCC. Uses C++ standard 17 by default."
         }
     ],
     "version": "2.0.0"
