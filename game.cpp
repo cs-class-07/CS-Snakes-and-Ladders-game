@@ -1,4 +1,6 @@
 #include <unordered_map>
+#include <ctime>
+#include <cstdlib>
 #include "common.hpp"
 
 using namespace std;
@@ -21,7 +23,17 @@ void populate_board(int (&board)[BOARD_ROWS][BOARD_COLUMNS]) {
 }
 
 void populate_snakes(unordered_map<int, int> &snakes) {
-    for (int i = 0; i < FEATURES_LENGTH; i++) {
-        
+    srand(time(0));
+
+    for (int i = 0; i < SINGLE_FEATURES_LENGTH; i++) {
+        int random_pos = (rand() % (BOARD_CELLS - BOARD_ROWS * 3)) + BOARD_ROWS * 3;
+        int length = rand() % BOARD_ROWS * 4;
+
+        while (random_pos - length < 0 && !snakes.contains(random_pos)) {
+            int random_pos = (rand() % (BOARD_CELLS - BOARD_ROWS * 3)) + BOARD_ROWS * 3;
+            int length = rand() % BOARD_ROWS * 4;
+        }
+
+        snakes.insert({ random_pos, length });
     }
 }

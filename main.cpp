@@ -13,7 +13,12 @@ int main() {
     unordered_map<int, int> ladders;
 
     populate_board(board);
-    draw_board(board);
+    populate_snakes(snakes);
+    draw_board(board, snakes);
+
+    // for (auto const& [key, val] : snakes) { // See https://stackoverflow.com/a/26282004/12496724
+    //     cout << "Snake Start: " << key << "  Snake End: " << val << endl;
+    // }
 
     return 0;
 }
