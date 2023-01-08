@@ -4,7 +4,7 @@
 
 using namespace std;
 
-const int MAX_LENGTH = to_string(BOARD_ROWS * BOARD_COLUMNS).length();
+const int MAX_LENGTH = to_string(BOARD_CELLS).length();
 
 int compute_row_padding(const int (&board)[BOARD_ROWS][BOARD_COLUMNS], const int i) {
     int char_length = 0; // A variable that will store how many times we have to print the spacing character
@@ -52,19 +52,6 @@ void draw_row_padding(const int length, const int type = 0) {
         cout << "┘";
     }
 }
-
-// void draw_column_padding(const int length, const int times) {
-//     cout << "│ ";
-
-//     for (int i = 0; i < times; i++) {
-//         for (int j = 0; j < length; j++) {
-//             cout << " ";
-//         }
-//         if (i < BOARD_COLUMNS - 1) cout << " │ ";
-//     }
-
-//     cout << " │";
-// }
 
 void draw_row(const int (&board)[BOARD_ROWS][BOARD_COLUMNS], const int i) {
     cout << "│ ";
@@ -166,6 +153,4 @@ void draw_board(const int (&board)[BOARD_ROWS][BOARD_COLUMNS], unordered_map<int
 
     draw_row_padding(row_length, 3);
     cout << endl;
-
-    cout << "Finished!" << endl;
 }
