@@ -21,5 +21,7 @@ void populate_board(int (&board)[BOARD_ROWS][BOARD_COLUMNS]) {
 }
 
 void populate_snakes(unordered_map<int, int> &snakes) {
-    
+    for (int i = 0; i < FEATURES_LENGTH; i++) {
+        
+    }
 }
