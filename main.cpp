@@ -19,7 +19,11 @@ int main() {
     unordered_set<int> banned_pos;
     int players_pos[PLAYERS_LENGTH];
 
-    memset(players_pos, 1, PLAYERS_LENGTH);
+    memset(players_pos, 0, PLAYERS_LENGTH*sizeof(players_pos[0])); // Memset everything to 0, setting 1 will result in 0x01010101 as memset works on a byte by byte basis and int is 4 bytes long
+
+    for (int i = 0; i < PLAYERS_LENGTH; i++) {
+        players_pos[i] += 1;
+    }
 
     initialize_random_numbers();
 
@@ -34,32 +38,20 @@ int main() {
         for (int i = 0; i < PLAYERS_LENGTH; i++) {
             cout << "Playing Player " << (char)('A' + i) << "'s turn";
             
-            for (int j = 0; j < 3; j++) {
-                sleep_for(200ms);
-                cout << ".";
-            }
-            cout << endl;
+            cout << "..." << endl;
             sleep_for(3s);
 
             int random_dice_roll = get_dice_roll();
             cout << "Player " << (char)('A' + i) << " rolled a " << random_dice_roll;
 
-            for (int j = 0; j < 3; j++) {
-                sleep_for(200ms);
-                cout << ".";
-            }
-            cout << endl;
+            cout << "..." << endl;
             sleep_for(3s);
 
             players_pos[i] += random_dice_roll;
 
             cout << "The player now advances to " << players_pos[i];
 
-            for (int j = 0; j < 3; j++) {
-                sleep_for(200ms);
-                cout << ".";
-            }
-            cout << endl;
+            cout << "..." << endl;
             sleep_for(3s);
 
             unordered_map<int, int>::iterator snakes_iter = snakes.find(players_pos[i]);
@@ -70,29 +62,21 @@ int main() {
 
                 players_pos[i] = snakes_iter->second;
 
-                for (int j = 0; j < 3; j++) {
-                    sleep_for(200ms);
-                    cout << ".";
-                }
-                cout << endl;
+                cout << "..." << endl;
                 sleep_for(3s);
             } else if (ladders_iter != ladders.end()) {
                 cout << "Player " << (char)('A' + i) << " landed on a Ladder! Player " << (char)('A' + i) << " climbs to " << ladders_iter->second;
 
                 players_pos[i] = ladders_iter->second;
 
-                for (int j = 0; j < 3; j++) {
-                    sleep_for(200ms);
-                    cout << ".";
-                }
-                cout << endl;
+                cout << "..." << endl;
                 sleep_for(3s);
             } else if (players_pos[i] >= BOARD_CELLS) {
                 winning_player = i;
                 break;
             }
 
-            cout << "\033c";
+            cout << endl << endl << endl << "\033c"; // Print 3 newlines in case stdout is being redirected to something like a file, where character \033c may not be interpreted correctly
 
             draw_board(board, snakes, ladders, players_pos);
         }
