@@ -1,7 +1,7 @@
 #pragma once
 
 // Start of configurable properties
-#define PLAYERS_LENGTH 1
+#define PLAYERS_LENGTH 6
 #define BOARD_ROWS 10
 #define BOARD_COLUMNS 10
 #define FEATURES_LENGTH (int)BOARD_ROWS*BOARD_COLUMNS/4

@@ -114,8 +114,8 @@ void draw_players_row(const int (&board)[BOARD_ROWS][BOARD_COLUMNS], const int (
 
         for (int k = 0; k < PLAYERS_LENGTH && players_printed_count <= MAX_LENGTH; k++) {
             if (players_pos[k] == board[i][j]) {
-                cout << (char)('A' + k);
-                players_printed_count++;
+                if (players_printed_count < MAX_LENGTH) cout << (char)('A' + k);
+                players_printed_count++; // Allow it to count up once more
             }
         }
 
@@ -123,7 +123,7 @@ void draw_players_row(const int (&board)[BOARD_ROWS][BOARD_COLUMNS], const int (
             cout << " ";
         }
 
-        if (players_printed_count > PLAYERS_LENGTH) cout << "+"; // Print a plus to indicate that there are more players on this cell
+        if (players_printed_count + 1 > MAX_LENGTH) cout << "+"; // Print a plus to indicate that there are more players on this cell
         else cout << " ";
 
         if (j < BOARD_COLUMNS - 1) cout << "│ ";
